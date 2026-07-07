@@ -2,7 +2,8 @@ name: Pipeline CI/CD
 
 on:
   push:
-    - main
+    branches:
+      - main
 
 permissions:
   id-token: write
