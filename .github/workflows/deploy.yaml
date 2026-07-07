@@ -29,8 +29,8 @@ jobs:
       - name: Build Image
         run: |
           docker build -t website:v1.0 .
-          docker tag website:v1.0 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod:1.0
-          docker push 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod
+          docker tag website:v1.0 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod:v1.0
+          docker push 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod:v1.0
   
   job2:
     name: deploy ec2
@@ -46,11 +46,11 @@ jobs:
           chmod 400 key-site.pem
           ssh -i key-site.pem -o StrictHostKeyChecking=no ec2-user@$PUBLIC_IP << EOF
             aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 547519647118.dkr.ecr.sa-east-1.amazonaws.com
-            docker pull 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod:1.0
+            docker pull 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod:v1.0
             echo "Removendo container"
             docker stop site-prod || true
             docker rm site-prod || true
-            docker run -d -p 80:80 --name site 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod:1.0
+            docker run -d -p 80:80 --name site 547519647118.dkr.ecr.sa-east-1.amazonaws.com/site-prod:v1.0
             docker ps
           EOF
           rm key-site.pem
