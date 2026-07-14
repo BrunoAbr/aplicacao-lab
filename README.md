@@ -114,7 +114,7 @@ Desenvolvimento
 
 ## 📷 Demonstração
 
-assets/example.jpg
+![Imagem de Exemplo](assets/example.jpg)
 
 ---
 
